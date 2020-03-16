@@ -1,0 +1,32 @@
+var x = document.getElementById("location");
+var w3w = document.getElementById("w3w");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML =
+    "<h2> Latitude: " +
+    position.coords.latitude +
+    "<br>Longitude: " +
+    position.coords.longitude +
+    "</h2>";
+  getW3WAddress(position.coords.latitude, position.coords.longitude);
+}
+
+function getW3WAddress(lat, lng) {
+  //Option with catch
+  var textURL = `https://api.what3words.com/v3/convert-to-3wa?coordinates=${lat},${lng}&language=en&key=UAT9QR8X`;
+  fetch(textURL)
+    .then(async r => {
+        var x = await r.json();
+        console.log(x);
+        console.log(x.words);
+        w3w.innerHTML = `<h2> <a href="${x.map}"> ///${x.words} </a> </h2>`;
+    })
+    .catch(e => console.error("Boo..." + e));
+}
