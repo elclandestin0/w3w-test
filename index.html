@@ -10,8 +10,21 @@
 
   <body>
     <button onclick="getLocation()"><h1>Get current location</h1></button>
+    <label> <h1>Location</h1> </label>
     <div id="location"></div>
+    <label><h1>what3words</h1></label>
     <div id="w3w"></div>
+    <hr>
+    <label><h1>convert to coordinates</h1></label>
+    <input
+      id="three_words_input"
+      type="text"
+      placeholder="///enter.three.words"
+    />
+    <div>
+      <button onclick="getCoordinates()">Get coordinates</button>
+    </div>
+    <div id="coordinates"></div>
     <script src="js/main.js"></script>
   </body>
 </html>

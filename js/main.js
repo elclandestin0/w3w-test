@@ -1,5 +1,6 @@
 var x = document.getElementById("location");
 var w3w = document.getElementById("w3w");
+var coordinates = document.getElementById("coordinates");
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -23,10 +24,23 @@ function getW3WAddress(lat, lng) {
   var textURL = `https://api.what3words.com/v3/convert-to-3wa?coordinates=${lat},${lng}&language=en&key=UAT9QR8X`;
   fetch(textURL)
     .then(async r => {
-        var x = await r.json();
-        console.log(x);
-        console.log(x.words);
-        w3w.innerHTML = `<h2> <a href="${x.map}"> ///${x.words} </a> </h2>`;
+      var x = await r.json();
+      console.log(x);
+      console.log(x.words);
+      w3w.innerHTML = `<h2> <a href="${x.map}"> ///${x.words} </a> </h2>`;
+    })
+    .catch(e => console.error("Boo..." + e));
+}
+
+function getCoordinates() {
+  var words = document.getElementById("three_words_input").value;
+  console.log(words);
+  var textURL = `https://api.what3words.com/v3/convert-to-coordinates?words=${words}&language=en&key=UAT9QR8X`;
+  console.log(textURL);
+  fetch(textURL)
+    .then(async r => {
+      var x = await r.json();
+      coordinates.innerHTML = `<h2>${x.coordinates.lat}, ${x.coordinates.lng} </h2>`;
     })
     .catch(e => console.error("Boo..." + e));
 }
