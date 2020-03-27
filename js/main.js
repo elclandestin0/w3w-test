@@ -17,6 +17,7 @@ function showPosition(position) {
     position.coords.longitude +
     "</h2>";
   getW3WAddress(position.coords.latitude, position.coords.longitude);
+  getGrid(position);
 }
 
 function getW3WAddress(lat, lng) {
@@ -43,4 +44,20 @@ function getCoordinates() {
       coordinates.innerHTML = `<h2>${x.coordinates.lat}, ${x.coordinates.lng} </h2>`;
     })
     .catch(e => console.error("Boo..." + e));
+}
+
+function getGrid(position) {
+  var southWestLat = position.coords.latitude - 0.006;
+  var southWestLng = position.coords.longitude - 0.006;
+  var northEastLat = position.coords.latitude + 0.006;
+  var northEastLng = position.coords.longitude + 0.006; 
+  console.log(southWestLat);
+  what3words.api.gridSectionGeoJson({
+    southwest: { lat: southWestLat, lng: southWestLng },
+    northeast: { lat: northEastLat, lng: northEastLng }
+  })
+  .then(function(response) {
+    console.log("[gridSection]", response);
+  }
+);
 }
